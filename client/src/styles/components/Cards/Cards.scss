@@ -1,0 +1,12 @@
+.cards {
+  // width: 95%;
+  // margin: 0 auto;
+  // display: flex;
+  justify-items: center;
+  // align-items: center;
+  // flex-wrap: wrap;
+  // gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  gap: 1rem 0;
+}

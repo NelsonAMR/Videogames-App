@@ -1,0 +1,67 @@
+@use "variables" as v;
+
+/** Media Queries **/
+@mixin telefono {
+  @media (max-width: v.$telefono) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: v.$tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: v.$desktop) {
+    @content;
+  }
+}
+
+/** Imagenes **/
+@mixin bg-image($url) {
+  width: 100%;
+  height: 100%;
+  background-image: url($url);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/** Botones **/
+@mixin button1($color1, $color2) {
+  width: 15rem;
+  border: 0.25rem solid $color1;
+  padding: 1rem;
+  background-color: unset;
+  color: $color1;
+  border-radius: 2.5rem;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: 200ms;
+
+  @include tablet {
+    transition: 10ms;
+  }
+
+  &:hover {
+    border: 0.25rem solid $color2;
+    color: $color2;
+
+    @include tablet {
+      border: 0.25rem solid $color1;
+      color: $color1;
+    }
+  }
+
+  &:active {
+    border: 0.25rem solid $color1;
+    color: $color1;
+
+    @include tablet {
+      border: 0.25rem solid $color2;
+      color: $color2;
+    }
+  }
+}

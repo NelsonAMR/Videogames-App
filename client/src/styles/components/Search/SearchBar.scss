@@ -1,0 +1,16 @@
+.searchBar {
+  height: 100%;
+  width: 50%;
+  max-width: 100rem;
+  display: flex;
+  flex-wrap: nowrap;
+
+  input {
+    height: 100%;
+    width: 90%;
+  }
+
+  button {
+    height: 100%;
+  }
+}

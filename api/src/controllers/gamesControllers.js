@@ -6,7 +6,21 @@ const { URL, KEY } = process.env;
 
 const getGames = async (req, res) => {
   try {
-    const result = await Videogame.findAll();
+    const resp = await fetch(`${URL}/games?key=${KEY}`);
+    const { results } = await resp.json();
+
+    const resultAPI = results.map((game) => ({
+      id: game.id,
+      name: game.name,
+      // platforms: game.platforms?.map((e) => e.platform.name),
+      image: game.background_image,
+      // rating: game.rating,
+      genres: game.genres?.map((e) => e.name),
+    }));
+
+    const resultDB = await Videogame.findAll();
+
+    const result = [...resultDB, ...resultAPI];
 
     if (!result) {
       throw Error("No se encontraron juegos");
@@ -75,12 +89,13 @@ const getGamesByName = async (req, res) => {
     const { results } = await response.json();
 
     const resultAPI = results.map((game) => ({
+      id: game.id,
       name: game.name,
-      description: game.description,
-      platforms: game.platforms?.map((e) => e.platform.name),
+      // description: game.description,
+      // platforms: game.platforms?.map((e) => e.platform.name),
       image: game.background_image,
-      rating: game.rating,
-      released: game.released,
+      // rating: game.rating,
+      // released: game.released,
       genres: game.genres?.map((e) => e.name),
     }));
 
@@ -107,13 +122,14 @@ const getGamesByName = async (req, res) => {
 
 const postGame = async (req, res) => {
   try {
-    const { name, description, platforms, image, rating, released } = req.body;
+    const { name, description, platforms, image, rating, released, genres } =
+      req.body;
 
     if ((!name, !platforms, !rating, !released, !description)) {
       throw Error("Faltan datos");
     }
 
-    await Videogame.create({
+    const newGame = await Videogame.create({
       name,
       description,
       platforms,
@@ -121,6 +137,10 @@ const postGame = async (req, res) => {
       rating,
       released,
     });
+
+    // const genres1 = [1, 2];
+
+    await newGame.addGenre(genres);
 
     res.status(200).send({ msg: "created" });
   } catch (error) {
