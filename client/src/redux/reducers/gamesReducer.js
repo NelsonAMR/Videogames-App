@@ -1,11 +1,18 @@
-import { CLEAR_STATE, GAME_BY_NAME, GET_GAMES } from "./actions";
+import {
+  CLEAR_STATE,
+  GAME_BY_NAME,
+  GAME_DETAIL,
+  GET_GAMES,
+  ORDER_GAMES,
+} from "../actions";
 
 const initialState = {
   games: [],
   allGames: [],
+  detail: {},
 };
 
-function reducer(state = initialState, { type, payload }) {
+function gamesReducer(state = initialState, { type, payload }) {
   switch (type) {
     case GET_GAMES:
       return {
@@ -19,13 +26,26 @@ function reducer(state = initialState, { type, payload }) {
         ...state,
         games: [],
         allGames: [],
+        detail: {},
       };
+
+    case GAME_DETAIL: {
+      return {
+        ...state,
+        detail: { ...payload },
+      };
+    }
 
     case GAME_BY_NAME:
       return {
         ...state,
         games: [...payload],
-        allGames: [...payload],
+      };
+
+    case ORDER_GAMES:
+      return {
+        ...state,
+        games: [...payload],
       };
 
     default:
@@ -33,4 +53,4 @@ function reducer(state = initialState, { type, payload }) {
   }
 }
 
-export default reducer;
+export default gamesReducer;

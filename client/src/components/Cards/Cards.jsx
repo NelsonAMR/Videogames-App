@@ -5,7 +5,7 @@ import Card from "./Card";
 import "../../styles/components/Cards/Cards.scss";
 
 function Cards() {
-  const { games } = useSelector((state) => state);
+  const { games } = useSelector((state) => state.games);
   const dispatch = useDispatch();
 
   useEffect(() => {

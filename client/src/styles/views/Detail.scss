@@ -1,5 +1,30 @@
 .detail {
   width: 95%;
+  height: fit-content;
   max-width: 120rem;
-  margin: 5rem auto;
+  padding-top: 10rem;
+  margin-inline: auto;
+  margin-bottom: 5rem;
+  overflow: hidden;
+}
+
+.detail-cont {
+  display: flex;
+  gap: 3rem;
+
+  .detail-img {
+    width: 45%;
+    height: 100%;
+    max-height: 50rem;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  .detail-info {
+    width: 55%;
+  }
 }

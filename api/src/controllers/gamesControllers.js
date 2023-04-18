@@ -1,23 +1,18 @@
 require("dotenv");
 const { Op } = require("sequelize");
 const { Videogame, Genre } = require("../db");
+const { apiGetGames, orderGames } = require("../helpers");
 
 const { URL, KEY } = process.env;
 
 const getGames = async (req, res) => {
   try {
-    const resp = await fetch(`${URL}/games?key=${KEY}`);
-    const { results } = await resp.json();
+    const { page = 1, size = 15, name, order } = req.query;
 
-    const resultAPI = results.map((game) => ({
-      id: game.id,
-      name: game.name,
-      // platforms: game.platforms?.map((e) => e.platform.name),
-      image: game.background_image,
-      // rating: game.rating,
-      genres: game.genres?.map((e) => e.name),
-    }));
+    const startIndex = (page - 1) * size;
+    const endIndex = startIndex + size;
 
+    const resultAPI = await apiGetGames(name);
     const resultDB = await Videogame.findAll();
 
     const result = [...resultDB, ...resultAPI];
@@ -26,7 +21,15 @@ const getGames = async (req, res) => {
       throw Error("No se encontraron juegos");
     }
 
-    res.status(200).json(result);
+    if (!order) {
+      const pageResult = result.slice(startIndex, endIndex);
+      return res.status(200).json(pageResult);
+    }
+
+    const games = orderGames(result, order);
+    const pageResult = games.slice(startIndex, endIndex);
+
+    return res.status(200).json(pageResult);
   } catch (error) {
     res.status(400);
     res.send({ error: error.message });
@@ -47,11 +50,11 @@ const getGameById = async (req, res) => {
 
       const videogame = {
         name: data.name,
-        description: data.description,
+        description: data.description.replace(/<[^>]*>?/gm, ""),
         platforms: data.platforms.map((e) => e.platform.name),
         genres: data.genres.map((e) => e.name),
-        image: data.image,
-        rating: data.rating,
+        image: data.background_image,
+        rating: data.metacritic,
         released: data.released,
       };
 
@@ -66,7 +69,7 @@ const getGameById = async (req, res) => {
       const videogame = {
         name: result.name,
         description: result.description,
-        platforms: result.platforms,
+        platforms: result.platforms.map((platform) => platform.name),
         genres: result.genres.map((genre) => genre.name),
         image: result.image,
         rating: result.rating,
@@ -83,22 +86,9 @@ const getGameById = async (req, res) => {
 
 const getGamesByName = async (req, res) => {
   try {
-    const { name } = req.query;
+    const { page = 1, size = 15, name } = req.query;
 
-    const response = await fetch(`${URL}/games?search=${name}&key=${KEY}`);
-    const { results } = await response.json();
-
-    const resultAPI = results.map((game) => ({
-      id: game.id,
-      name: game.name,
-      // description: game.description,
-      // platforms: game.platforms?.map((e) => e.platform.name),
-      image: game.background_image,
-      // rating: game.rating,
-      // released: game.released,
-      genres: game.genres?.map((e) => e.name),
-    }));
-
+    const resultAPI = await apiGetGames(name);
     const resultDB = await Videogame.findAll({
       where: {
         name: {
@@ -113,7 +103,12 @@ const getGamesByName = async (req, res) => {
       throw Error("No se encontraron juegos");
     }
 
-    res.status(200).json(result);
+    const startIndex = (page - 1) * size;
+    const endIndex = startIndex + size;
+
+    const pageResult = result.slice(startIndex, endIndex);
+
+    res.status(200).json(pageResult);
   } catch (error) {
     res.status(400);
     res.send({ error: error.message });

@@ -32,8 +32,15 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       rating: {
-        type: DataTypes.DECIMAL(5, 2),
+        type: DataTypes.INTEGER,
         allowNull: false,
+        validate: {
+          isWithinRange(value) {
+            if (value < 0 || value > 100) {
+              throw new Error("El Rating debe ser un numero entro 0 y 100");
+            }
+          },
+        },
       },
     },
     {

@@ -1,7 +1,35 @@
-.filters {
+.filter {
+  width: 28rem;
   height: 100%;
 
-  button {
-    height: 100%;
+  h4 {
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  .filter-order {
+    margin-bottom: 2rem;
+  }
+}
+
+.order-cont {
+  display: flex;
+  gap: 1rem;
+
+  .order {
+    cursor: pointer;
+    padding: 0.75rem;
+    background-color: #000;
+    color: #fff;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+
+    input {
+      display: none;
+    }
+
+    label {
+      cursor: pointer;
+    }
   }
 }

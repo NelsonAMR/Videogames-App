@@ -1,14 +1,19 @@
 import React from "react";
-import Cards from "../components/Cards/Cards";
+import { Filters, Search, Cards } from "../components";
+import { useSelector } from "react-redux";
 
 import "../styles/views/Home.scss";
-import Search from "../components/Search/Search";
 
 function Home() {
+  const { filter } = useSelector((state) => state.app);
+
   return (
     <div className="home">
       <Search />
-      <Cards />
+      <div className="home-cont">
+        <Cards />
+        {filter && <Filters />}
+      </div>
     </div>
   );
 }
