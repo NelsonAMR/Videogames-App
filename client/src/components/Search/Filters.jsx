@@ -1,16 +1,22 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "../../styles/components/Search/Filters.scss";
-import { orderGames } from "../../redux/actions";
+import { filterGames, orderGames } from "../../redux/actions";
 
 function Filters() {
+  const { genres } = useSelector((state) => state.games);
   const dispatch = useDispatch();
 
   const handleOrder = (event) => {
     const order = event.target.id;
-    console.log(order);
     dispatch(orderGames(order));
+  };
+
+  const handleFilter = (event) => {
+    const filter = event.target.value;
+    dispatch(filterGames(filter));
+    console.log(!filter);
   };
 
   return (
@@ -30,6 +36,14 @@ function Filters() {
       </div>
       <div className="filter-filters">
         <h4>Filtrar por</h4>
+        <input type="search" list="genresList" onChange={handleFilter} />
+        <datalist id="genresList">
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre.name}>
+              {genre.name}
+            </option>
+          ))}
+        </datalist>
       </div>
     </div>
   );

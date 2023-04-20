@@ -1,19 +1,34 @@
-import React from "react";
-import { Filters, Search, Cards } from "../components";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { Filters, Search, Cards, Paginator } from "../components";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearState,
+  getGames,
+  getGenres,
+  getPlatforms,
+} from "../redux/actions";
 
 import "../styles/views/Home.scss";
 
 function Home() {
-  const { filter } = useSelector((state) => state.app);
+  const { filterState } = useSelector((state) => state.app);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearState());
+    dispatch(getGames());
+    dispatch(getGenres());
+    dispatch(getPlatforms());
+  }, [dispatch]);
 
   return (
     <div className="home">
       <Search />
       <div className="home-cont">
         <Cards />
-        {filter && <Filters />}
+        {filterState && <Filters />}
       </div>
+      <Paginator />
     </div>
   );
 }

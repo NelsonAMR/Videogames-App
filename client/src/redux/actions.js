@@ -1,5 +1,6 @@
 const url = "http://localhost:3001/games";
-//https://pi-videogames-sigma-one.vercel.app/games/32
+const urlGenres = "http://localhost:3001/genres";
+const urlPlatforms = "http://localhost:3001/platforms";
 
 export const GET_GAMES = "GET_GAMES";
 export const GAME_DETAIL = "GAME_DETAIL";
@@ -7,6 +8,10 @@ export const CLEAR_STATE = "CLEAR_STATE";
 export const GAME_BY_NAME = "GAME_BY_NAME";
 export const ACT_FILTERS = "ACT_FILTERS";
 export const ORDER_GAMES = "ORDER_GAMES";
+export const GET_PAGE = "GET_PAGE";
+export const FILTER_GAMES = "FILTER_GAMES";
+export const GET_GENRES = "GET_GENRES";
+export const GET_PLATFORMS = "GET_PLATFORMS";
 
 export const actFilters = () => {
   return {
@@ -14,24 +19,17 @@ export const actFilters = () => {
   };
 };
 
-export const getGames = (name = null, order = null, page = 1) => {
+export const getGames = (name = null) => {
   return async (dispatch) => {
     try {
       let resp;
-
-      if (!!name && !!order) {
-        resp = await fetch(`${url}?name=${name}&order=${order}&page=${page}`);
-      } else if (!!name) {
-        resp = await fetch(`${url}?name=${name}&page=${page}`);
-      } else if (!!order) {
-        resp = await fetch(`${url}?order=${order}&page=${page}`);
+      if (!name) {
+        resp = await fetch(url);
       } else {
-        resp = await fetch(`${url}?page=${page}`);
-        console.log(resp);
+        console.log(name);
+        resp = await fetch(`${url}?name=${name}`);
       }
-
       const data = await resp.json();
-      console.log(data);
 
       dispatch({
         type: GET_GAMES,
@@ -59,34 +57,57 @@ export const gameDetail = (id) => {
   };
 };
 
-export const gameByName = (name) => {
-  return async (dispatch) => {
-    try {
-      const resp = await fetch(`${url}?name=${name}`);
-      const data = await resp.json();
-
-      dispatch({
-        type: GAME_BY_NAME,
-        payload: data,
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
+export const orderGames = (order) => {
+  return (dispatch) => {
+    dispatch({
+      type: ORDER_GAMES,
+      payload: order,
+    });
   };
 };
 
-export const orderGames = (order) => {
-  return async (dispatch) => {
-    try {
-      const resp = await fetch(`${url}?order=${order}`);
-      const data = await resp.json();
+export const filterGames = (filter) => {
+  return (disptach) => {
+    disptach({
+      type: FILTER_GAMES,
+      payload: filter,
+    });
+  };
+};
 
-      dispatch({
-        type: ORDER_GAMES,
-        payload: data,
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
+export const getPage = (page) => {
+  return (dispatch) => {
+    dispatch({
+      type: GET_PAGE,
+      payload: page,
+    });
+  };
+};
+
+export const getGenres = () => {
+  return async (dispatch) => {
+    const resp = await fetch(urlGenres);
+    const data = await resp.json();
+
+    console.log(data);
+
+    dispatch({
+      type: GET_GENRES,
+      payload: data,
+    });
+  };
+};
+
+export const getPlatforms = () => {
+  return async (dispatch) => {
+    const resp = await fetch(urlPlatforms);
+    const data = await resp.json();
+
+    console.log(data);
+
+    dispatch({
+      type: GET_PLATFORMS,
+      payload: data,
+    });
   };
 };

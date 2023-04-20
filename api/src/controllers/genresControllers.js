@@ -5,17 +5,21 @@ const { URL, KEY } = process.env;
 
 const getGenres = async (req, res) => {
   try {
-    const response = await fetch(`${URL}/genres?key=${KEY}`);
-    const { results } = await response.json();
+    let genres = await Genre.findAll();
 
-    await Promise.all(
-      results.map(({ name }) => Genre.findOrCreate({ where: { name } }))
-    );
+    if (!genres) {
+      const response = await fetch(`${URL}/genres?key=${KEY}`);
+      const { results } = await response.json();
+
+      genres = await Promise.all(
+        results.map(({ name }) => Genre.findOrCreate({ where: { name } }))
+      );
+    }
+
+    res.status(200).json(genres);
 
     // await Promise.all(genres.map((genre) => Genre.create(genre)));
     // await Genre.bulkCreate(genres);
-
-    res.status(200).send({ msg: "success" });
   } catch (error) {
     res.status(500);
     res.send({ error: error.message });

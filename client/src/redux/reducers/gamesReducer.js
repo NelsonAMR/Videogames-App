@@ -1,14 +1,18 @@
 import {
   CLEAR_STATE,
-  GAME_BY_NAME,
+  FILTER_GAMES,
   GAME_DETAIL,
   GET_GAMES,
+  GET_GENRES,
+  GET_PLATFORMS,
   ORDER_GAMES,
 } from "../actions";
 
 const initialState = {
   games: [],
   allGames: [],
+  genres: [],
+  platforms: [],
   detail: {},
 };
 
@@ -19,6 +23,18 @@ function gamesReducer(state = initialState, { type, payload }) {
         ...state,
         games: [...state.games, ...payload],
         allGames: [...state.allGames, ...payload],
+      };
+
+    case GET_GENRES:
+      return {
+        ...state,
+        genres: [...state.genres, ...payload],
+      };
+
+    case GET_PLATFORMS:
+      return {
+        ...state,
+        platforms: [...state.platforms, ...payload],
       };
 
     case CLEAR_STATE:
@@ -36,16 +52,35 @@ function gamesReducer(state = initialState, { type, payload }) {
       };
     }
 
-    case GAME_BY_NAME:
-      return {
-        ...state,
-        games: [...payload],
-      };
-
     case ORDER_GAMES:
       return {
         ...state,
-        games: [...payload],
+        games: [
+          ...state.games.sort((a, b) => {
+            switch (payload) {
+              case "a-z": {
+                if (a?.name.toLowerCase() > b?.name.toLowerCase()) return 1;
+                if (a?.name.toLowerCase() < b?.name.toLowerCase()) return -1;
+                else return 0;
+              }
+              case "z-a": {
+                if (a?.name.toLowerCase() > b?.name.toLowerCase()) return -1;
+                if (a?.name.toLowerCase() < b?.name.toLowerCase()) return 1;
+                else return 0;
+              }
+              default:
+                return 0;
+            }
+          }),
+        ],
+      };
+
+    case FILTER_GAMES:
+      return {
+        ...state,
+        games: !payload
+          ? [...state.allGames]
+          : [...state.games.filter((game) => game?.genres.includes(payload))],
       };
 
     default:

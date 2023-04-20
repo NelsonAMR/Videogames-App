@@ -1,19 +1,18 @@
 require("dotenv");
 const { Op } = require("sequelize");
-const { Videogame, Genre } = require("../db");
-const { apiGetGames, orderGames } = require("../helpers");
+const { Videogame, Genre, Platform } = require("../db");
+const { apiGetGames } = require("../helpers");
 
 const { URL, KEY } = process.env;
 
 const getGames = async (req, res) => {
   try {
-    const { page = 1, size = 15, name, order } = req.query;
-
-    const startIndex = (page - 1) * size;
-    const endIndex = startIndex + size;
+    const { name } = req.query;
 
     const resultAPI = await apiGetGames(name);
-    const resultDB = await Videogame.findAll();
+    const resultDB = await Videogame.findAll({
+      include: [Genre, Platform],
+    });
 
     const result = [...resultDB, ...resultAPI];
 
@@ -21,15 +20,7 @@ const getGames = async (req, res) => {
       throw Error("No se encontraron juegos");
     }
 
-    if (!order) {
-      const pageResult = result.slice(startIndex, endIndex);
-      return res.status(200).json(pageResult);
-    }
-
-    const games = orderGames(result, order);
-    const pageResult = games.slice(startIndex, endIndex);
-
-    return res.status(200).json(pageResult);
+    return res.status(200).json(result);
   } catch (error) {
     res.status(400);
     res.send({ error: error.message });

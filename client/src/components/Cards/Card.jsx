@@ -18,7 +18,7 @@ function Card({ image, name, genres, id }) {
         <h3>{name}</h3>
 
         <div className="card-genres">
-          {genres.map((genre, i) => (
+          {genres?.map((genre, i) => (
             <p key={i}>{genre}</p>
           ))}
         </div>

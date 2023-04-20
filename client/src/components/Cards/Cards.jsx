@@ -1,29 +1,31 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { clearState, getGames } from "../../redux/actions";
+import React from "react";
+import { useSelector } from "react-redux";
+
 import Card from "./Card";
 import "../../styles/components/Cards/Cards.scss";
 
 function Cards() {
   const { games } = useSelector((state) => state.games);
-  const dispatch = useDispatch();
+  const { page, size } = useSelector((state) => state.app);
 
-  useEffect(() => {
-    dispatch(clearState());
-    dispatch(getGames());
-  }, [dispatch]);
+  const startIndex = (page - 1) * size;
+  const endIndex = page * size;
 
   return (
     <div className="cards">
-      {games?.map((game) => (
-        <Card
-          key={game.id}
-          id={game.id}
-          name={game.name}
-          image={game.image}
-          genres={game.genres}
-        />
-      ))}
+      {games
+        .slice(startIndex, endIndex)
+        ?.map((game) =>
+          game ? (
+            <Card
+              key={game?.id}
+              id={game?.id}
+              name={game?.name}
+              image={game?.image}
+              genres={game?.genres}
+            />
+          ) : null
+        )}
     </div>
   );
 }
