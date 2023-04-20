@@ -1,0 +1,14 @@
+.paginator {
+  display: flex;
+  gap: 1rem;
+}
+
+.paginator-pages {
+  display: flex;
+  gap: 0.5rem;
+
+  input {
+    width: 3rem;
+    text-align: center;
+  }
+}

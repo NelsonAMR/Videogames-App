@@ -10,9 +10,31 @@ const getGames = async (req, res) => {
     const { name } = req.query;
 
     const resultAPI = await apiGetGames(name);
-    const resultDB = await Videogame.findAll({
-      include: [Genre, Platform],
+    const videogames = await Videogame.findAll({
+      include: [
+        {
+          model: Genre,
+          attributes: ["name"],
+          through: { attributes: [] },
+        },
+        {
+          model: Platform,
+          attributes: ["name"],
+          through: { attributes: [] },
+        },
+      ],
     });
+
+    const resultDB = videogames.map((videogame) => ({
+      id: videogame.id,
+      name: videogame.name,
+      description: videogame.description,
+      released: videogame.released,
+      rating: videogame.rating,
+      image: videogame.image,
+      genres: videogame.genres.map((genre) => genre.name),
+      platforms: videogame.platforms.map((platform) => platform.name),
+    }));
 
     const result = [...resultDB, ...resultAPI];
 
@@ -51,7 +73,18 @@ const getGameById = async (req, res) => {
 
       res.status(200).json(videogame);
     } else {
-      const result = await Videogame.findByPk(id, { include: Genre });
+      const result = await Videogame.findByPk(id, {
+        include: [
+          {
+            model: Genre,
+            attributes: ["name"],
+          },
+          {
+            model: Platform,
+            attributes: ["name"],
+          },
+        ],
+      });
 
       if (!result) {
         throw Error("No se encontraron juegos");
@@ -85,6 +118,16 @@ const getGamesByName = async (req, res) => {
         name: {
           [Op.like]: `%${name}%`,
         },
+        include: [
+          {
+            model: Genre,
+            attributes: ["name"],
+          },
+          {
+            model: Platform,
+            attributes: ["name"],
+          },
+        ],
       },
     });
 
@@ -124,9 +167,11 @@ const postGame = async (req, res) => {
       released,
     });
 
-    // const genres1 = [1, 2];
+    const platformIds = platforms.map((platform) => platform.id);
+    const genreIds = genres.map((genre) => genre.id);
 
-    await newGame.addGenre(genres);
+    await newGame.addGenre(genreIds);
+    await newGame.addPlatform(platformIds);
 
     res.status(200).send({ msg: "created" });
   } catch (error) {

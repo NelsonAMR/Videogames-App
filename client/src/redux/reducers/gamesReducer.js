@@ -42,6 +42,8 @@ function gamesReducer(state = initialState, { type, payload }) {
         ...state,
         games: [],
         allGames: [],
+        genres: [],
+        platforms: [],
         detail: {},
       };
 
@@ -76,11 +78,16 @@ function gamesReducer(state = initialState, { type, payload }) {
       };
 
     case FILTER_GAMES:
+      const filters = payload.map((item) => item.name);
       return {
         ...state,
         games: !payload
           ? [...state.allGames]
-          : [...state.games.filter((game) => game?.genres.includes(payload))],
+          : [
+              ...state.allGames.filter((game) =>
+                filters.every((genre) => game?.genres.includes(genre))
+              ),
+            ],
       };
 
     default:

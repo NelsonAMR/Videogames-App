@@ -26,7 +26,6 @@ export const getGames = (name = null) => {
       if (!name) {
         resp = await fetch(url);
       } else {
-        console.log(name);
         resp = await fetch(`${url}?name=${name}`);
       }
       const data = await resp.json();
@@ -89,8 +88,6 @@ export const getGenres = () => {
     const resp = await fetch(urlGenres);
     const data = await resp.json();
 
-    console.log(data);
-
     dispatch({
       type: GET_GENRES,
       payload: data,
@@ -102,8 +99,6 @@ export const getPlatforms = () => {
   return async (dispatch) => {
     const resp = await fetch(urlPlatforms);
     const data = await resp.json();
-
-    console.log(data);
 
     dispatch({
       type: GET_PLATFORMS,
