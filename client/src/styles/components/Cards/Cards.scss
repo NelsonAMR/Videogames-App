@@ -1,13 +1,24 @@
+@use "../../base/mixins" as m;
+
 .cards {
-  // width: 95%;
-  // margin: 0 auto;
-  // display: flex;
   justify-items: center;
-  // align-items: center;
-  // flex-wrap: wrap;
-  // gap: 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-  gap: 1rem 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   width: 100%;
+  margin-bottom: 5rem;
+}
+
+@include m.tablet {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@include m.phone {
+  .cards {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+  }
 }

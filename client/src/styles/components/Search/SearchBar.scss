@@ -1,16 +1,26 @@
+@use "../../base/variables" as v;
+@use "../../base/mixins" as m;
+
 .searchBar {
   height: 100%;
   width: 50%;
   max-width: 100rem;
   display: flex;
   flex-wrap: nowrap;
+  border-radius: 0.5rem;
 
   input {
     height: 100%;
-    width: 90%;
+    width: 100%;
+    border-right: none;
+    padding: 1rem;
+    color: v.$light;
+    font-size: 1.6rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+    outline: none;
   }
 
   button {
-    height: 100%;
+    border-radius: 0 0.5rem 0.5rem 0;
   }
 }

@@ -21,19 +21,19 @@ function Detail() {
           <img src={detail?.image} alt={detail.name} />
         </div>
         <div className="detail-info">
-          <h3>{detail.name}</h3>
-          <h4>Plataformas: </h4>
-          <p>{detail.platforms}</p>
-          <h4>Generos: </h4>
-          <p>{detail.genres}</p>
-          <h4>Rating: </h4>
+          <h3 className="title">{detail.name}</h3>
+          <h4>Plataformas</h4>
+          <p>{detail.platforms?.join(", ")}</p>
+          <h4>Generos</h4>
+          <p>{detail.genres?.join(", ")}</p>
+          <h4>Rating</h4>
           <p>{detail.rating}</p>
-          <h4>Fecha de lanzamiento: </h4>
+          <h4>Fecha de lanzamiento</h4>
           <p>{detail.released}</p>
         </div>
       </div>
       <div className="detail-desc">
-        <h4>Descripcion: </h4>
+        <h4>Descripcion</h4>
         <p>{detail.description}</p>
       </div>
     </div>

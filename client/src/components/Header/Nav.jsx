@@ -9,7 +9,7 @@ function Nav() {
       <Link to="/">Inicio</Link>
       <Link to="/home">Videojuegos</Link>
       <Link to="/form">Crear Juego</Link>
-      <Link to="/about">Sobre Nosotros</Link>
+      {/* <Link to="/about">Sobre Nosotros</Link> */}
     </div>
   );
 }

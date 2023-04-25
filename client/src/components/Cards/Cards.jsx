@@ -23,6 +23,7 @@ function Cards() {
               name={game?.name}
               image={game?.image}
               genres={game?.genres}
+              rating={game?.rating}
             />
           ) : null
         )}

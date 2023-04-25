@@ -15,7 +15,9 @@ function Search() {
     <div className="search">
       <Paginator />
       <SearchBar />
-      <button onClick={handleClick}>Filtros</button>
+      <button className="search-button btn" onClick={handleClick}>
+        Filtros
+      </button>
     </div>
   );
 }

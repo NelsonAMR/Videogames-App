@@ -1,5 +1,7 @@
 import {
   CLEAR_STATE,
+  DELETE_GENRE,
+  DELETE_PLATFORM,
   FILTER_GAMES,
   GAME_DETAIL,
   GET_GAMES,
@@ -12,7 +14,9 @@ const initialState = {
   games: [],
   allGames: [],
   genres: [],
+  allGenres: [],
   platforms: [],
+  allPlatforms: [],
   detail: {},
 };
 
@@ -29,22 +33,26 @@ function gamesReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         genres: [...state.genres, ...payload],
+        allGenres: [...state.allGenres, ...payload],
+      };
+
+    case DELETE_GENRE:
+      return {
+        ...state,
+        genres: state.genres.filter((genre) => genre !== payload),
       };
 
     case GET_PLATFORMS:
       return {
         ...state,
         platforms: [...state.platforms, ...payload],
+        allPlatforms: [...state.allPlatforms, ...payload],
       };
 
-    case CLEAR_STATE:
+    case DELETE_PLATFORM:
       return {
         ...state,
-        games: [],
-        allGames: [],
-        genres: [],
-        platforms: [],
-        detail: {},
+        platforms: state.platforms.filter((platform) => platform !== payload),
       };
 
     case GAME_DETAIL: {
@@ -88,6 +96,16 @@ function gamesReducer(state = initialState, { type, payload }) {
                 filters.every((genre) => game?.genres.includes(genre))
               ),
             ],
+      };
+
+    case CLEAR_STATE:
+      return {
+        ...state,
+        games: [],
+        allGames: [],
+        genres: [],
+        platforms: [],
+        detail: {},
       };
 
     default:

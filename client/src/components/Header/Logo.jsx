@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearState, getGames } from "../../redux/actions";
 
-import logo from "../../res/img/controller_119974.svg";
+import logo from "../../res/img/logo1.png";
 import "../../styles/components/Header/Logo.scss";
 
 function Logo() {

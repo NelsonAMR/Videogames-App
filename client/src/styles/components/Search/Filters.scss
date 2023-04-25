@@ -1,6 +1,21 @@
+@use "../../base/variables" as v;
+
 .filter {
-  width: 28rem;
-  height: 100%;
+  width: 0;
+  height: fit-content;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+
+  &.show {
+    width: 28rem;
+    height: fit-content;
+    opacity: 1;
+    overflow: visible;
+    background-color: v.$dark;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
 
   h4 {
     font-weight: 400;
@@ -14,6 +29,7 @@
 
 .order-cont {
   display: flex;
+
   gap: 1rem;
 
   .order {

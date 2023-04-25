@@ -1,9 +1,10 @@
 import React from "react";
+import "../../styles/components/Selector/Selector.scss";
 
-function Selector({ category, state, setState, name }) {
+function Selector({ datalist, state, setState, name, placeholder }) {
   const handleSelect = (event) => {
     const { value } = event.target;
-    const finded = category.find((item) => item.name === value);
+    const finded = datalist.find((item) => item.name === value);
     if (!!finded && !state.includes(finded)) {
       setState([...state, finded]);
       event.target.value = "";
@@ -11,27 +12,35 @@ function Selector({ category, state, setState, name }) {
   };
 
   const handleDelete = (event) => {
-    const item = event.target.innerText;
+    const item = event.target
+      .closest(".selector-tag")
+      .querySelector(".selector-name").textContent;
     setState([...state.filter((prop) => prop.name !== item)]);
   };
 
   return (
-    <div>
-      <input type="search" list={`${name}-list`} onSelect={handleSelect} />
+    <div className="selector">
+      <input
+        className="selector-input"
+        type="search"
+        list={`${name}-list`}
+        onSelect={handleSelect}
+        placeholder={placeholder}
+      />
       <datalist id={`${name}-list`}>
-        {category.map((item) => (
+        {datalist.map((item) => (
           <option key={item.id} value={item.name}>
             {item.name}
           </option>
         ))}
       </datalist>
-      <div>
+      <div className="selector-tags">
         {state &&
           state.map(({ name, id }) => {
             return (
-              <div onClick={handleDelete} key={id}>
-                <span>x</span>
-                <p>{name}</p>
+              <div className="selector-tag" key={id} onClick={handleDelete}>
+                <p className="selector-name">{name}</p>
+                <span className="selector-x">X</span>
               </div>
             );
           })}

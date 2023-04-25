@@ -12,6 +12,7 @@ function Paginator() {
   const disptach = useDispatch();
 
   const totalPages = Math.ceil(games.length / size);
+  // const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   const handlePrev = () => {
     if (page - 1 > 0) disptach(getPage(page - 1));
@@ -35,18 +36,22 @@ function Paginator() {
 
   return (
     <div className="paginator">
-      <button onClick={handlePrev}>Prev</button>
+      <button onClick={handlePrev} className="btn">
+        Prev
+      </button>
       <form action="submit" onSubmit={handleSubmit} className="paginator-pages">
         <input
           type="text"
           min={1}
           max={totalPages}
           onChange={handleChange}
-          value={selectPage}
+          value={page}
         />
         <p>de {totalPages}</p>
       </form>
-      <button onClick={handleNext}>Next</button>
+      <button onClick={handleNext} className="btn">
+        Next
+      </button>
     </div>
   );
 }

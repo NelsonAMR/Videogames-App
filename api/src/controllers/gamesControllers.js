@@ -8,19 +8,19 @@ const { URL, KEY } = process.env;
 const getGames = async (req, res) => {
   try {
     const { name } = req.query;
+    const whereCondition = name ? { name: { [Op.iLike]: `%${name}%` } } : {};
 
     const resultAPI = await apiGetGames(name);
     const videogames = await Videogame.findAll({
+      where: whereCondition,
       include: [
         {
           model: Genre,
           attributes: ["name"],
-          through: { attributes: [] },
         },
         {
           model: Platform,
           attributes: ["name"],
-          through: { attributes: [] },
         },
       ],
     });
@@ -108,47 +108,6 @@ const getGameById = async (req, res) => {
   }
 };
 
-const getGamesByName = async (req, res) => {
-  try {
-    const { page = 1, size = 15, name } = req.query;
-
-    const resultAPI = await apiGetGames(name);
-    const resultDB = await Videogame.findAll({
-      where: {
-        name: {
-          [Op.like]: `%${name}%`,
-        },
-        include: [
-          {
-            model: Genre,
-            attributes: ["name"],
-          },
-          {
-            model: Platform,
-            attributes: ["name"],
-          },
-        ],
-      },
-    });
-
-    const result = [...resultDB, ...resultAPI];
-
-    if (!result) {
-      throw Error("No se encontraron juegos");
-    }
-
-    const startIndex = (page - 1) * size;
-    const endIndex = startIndex + size;
-
-    const pageResult = result.slice(startIndex, endIndex);
-
-    res.status(200).json(pageResult);
-  } catch (error) {
-    res.status(400);
-    res.send({ error: error.message });
-  }
-};
-
 const postGame = async (req, res) => {
   try {
     const { name, description, platforms, image, rating, released, genres } =
@@ -183,6 +142,5 @@ const postGame = async (req, res) => {
 module.exports = {
   getGames,
   getGameById,
-  getGamesByName,
   postGame,
 };

@@ -1,8 +1,8 @@
 @use "variables" as v;
 
 /** Media Queries **/
-@mixin telefono {
-  @media (max-width: v.$telefono) {
+@mixin phone {
+  @media (max-width: v.$phone) {
     @content;
   }
 }
@@ -30,6 +30,22 @@
 }
 
 /** Botones **/
+// @mixin button {
+//   font-size: 1.6rem;
+//   height: 100%;
+//   border-left: none;
+//   border: none;
+//   background-color: v.$dark;
+//   color: v.$light;
+//   padding-inline: 0.5rem;
+//   border-radius: 0.5rem;
+//   transition: 150ms;
+
+//   &:hover {
+//     background-color: lighten(v.$dark, 10%);
+//   }
+// }
+
 @mixin button1($color1, $color2) {
   width: 15rem;
   border: 0.25rem solid $color1;

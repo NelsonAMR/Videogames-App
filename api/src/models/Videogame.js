@@ -21,6 +21,7 @@ module.exports = (sequelize) => {
       },
       image: {
         type: DataTypes.STRING,
+        defaultValue: "https://armenia.travel/images/default.jpeg",
         allowNull: true,
       },
       released: {

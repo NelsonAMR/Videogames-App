@@ -3,7 +3,7 @@ const { URL, KEY } = process.env;
 const sets = "&page_size=40&metacritic=70,100";
 
 const apiGetGames = async (name = null) => {
-  const numPages = 10;
+  const numPages = 1;
   const pages = Array.from({ length: numPages }, (_, i) => i + 1);
 
   if (!name) {

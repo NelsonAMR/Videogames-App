@@ -1,13 +1,4 @@
-const url = "http://localhost:3001/games";
+import createGame from "./createGame";
+import validation from "./validation";
 
-export async function createGame(data) {
-  try {
-    await fetch(url, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(data),
-    });
-  } catch (error) {
-    console.error(error.message);
-  }
-}
+export { createGame, validation };

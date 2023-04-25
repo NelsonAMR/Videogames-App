@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "../../styles/components/Search/Filters.scss";
-import { filterGames, orderGames } from "../../redux/actions";
+import { filterGames, getPage, orderGames } from "../../redux/actions";
 import Selector from "../Selector/Selector";
 
 function Filters() {
+  const { filterState } = useSelector((state) => state.app);
   const [filters, setFilters] = useState([]);
   const { genres } = useSelector((state) => state.games);
   const dispatch = useDispatch();
@@ -17,10 +18,11 @@ function Filters() {
 
   useEffect(() => {
     dispatch(filterGames(filters));
+    dispatch(getPage(1));
   }, [filters, dispatch]);
 
   return (
-    <div className="filter">
+    <div className={`filter${filterState ? " show" : ""}`}>
       <div className="filter-order">
         <h4>Ordenar por</h4>
         <div className="order-cont">
@@ -35,11 +37,13 @@ function Filters() {
         </div>
       </div>
       <div className="filter-filters">
+        <h4>Filtros</h4>
         <Selector
           state={filters}
           setState={setFilters}
-          category={genres}
+          datalist={genres}
           name="genres"
+          placeholder="Incluir generos"
         />
       </div>
     </div>

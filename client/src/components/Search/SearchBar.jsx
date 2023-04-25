@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { clearState, getGames } from "../../redux/actions";
+import { clearState, getGames, getPage } from "../../redux/actions";
 
 import "../../styles/components/Search/SearchBar.scss";
 
@@ -17,6 +17,7 @@ function SearchBar() {
     event.preventDefault();
     dispatch(clearState());
     dispatch(getGames(game));
+    dispatch(getPage(1));
     setGame("");
   };
 
@@ -24,11 +25,11 @@ function SearchBar() {
     <form className="searchBar" onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Videojuego"
+        placeholder="Busca tu videojuego"
         onChange={handleChange}
         value={game}
       />
-      <button>Buscar</button>
+      <button className="btn">Buscar</button>
     </form>
   );
 }

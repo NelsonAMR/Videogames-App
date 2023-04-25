@@ -1,4 +1,19 @@
+@use "../../base/variables" as v;
+
 .nav {
   display: flex;
   gap: 2rem;
+
+  a {
+    font-size: 1.6rem;
+    transition: 150ms;
+    padding-block: 1rem;
+    transition: 250ms ease-in;
+    border-bottom: 0.35rem solid transparent;
+  }
+
+  a:hover {
+    border-bottom-color: v.$light;
+    border-bottom-width: 0.35rem;
+  }
 }
