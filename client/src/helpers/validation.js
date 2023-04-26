@@ -44,16 +44,12 @@ function validation(
     }
   }
 
-  if (genreState) {
-    if (genreState.length > 6) {
-      errors.genres = "No se pueden añadir mas de 6 generos";
-    }
+  if (!genreState) {
+    errors.genres = "Debe tener almenos un genero";
   }
 
-  if (platformState) {
-    if (platformState.length > 12) {
-      errors.genres = "No se pueden añadir mas de 12 plataformas";
-    }
+  if (!platformState) {
+    errors.platforms = "Debe ingresar al menos una plataforma";
   }
 
   return errors;

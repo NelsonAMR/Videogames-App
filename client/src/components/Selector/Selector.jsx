@@ -34,9 +34,9 @@ function Selector({ datalist, state, setState, name, placeholder }) {
           </option>
         ))}
       </datalist>
-      <div className="selector-tags">
-        {state &&
-          state.map(({ name, id }) => {
+      {!state.length ? null : (
+        <div className="selector-tags">
+          {state.map(({ name, id }) => {
             return (
               <div className="selector-tag" key={id} onClick={handleDelete}>
                 <p className="selector-name">{name}</p>
@@ -44,7 +44,8 @@ function Selector({ datalist, state, setState, name, placeholder }) {
               </div>
             );
           })}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

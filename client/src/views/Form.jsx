@@ -27,13 +27,12 @@ function Form() {
     setErrors(
       validation({ ...data, [name]: value }, genreState, platformState)
     );
-    console.log(errors);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!errors) {
+    if (!Object.keys(errors).length) {
       createGame({ ...data, genres: genreState, platforms: platformState });
       setData({
         name: "",
@@ -57,7 +56,12 @@ function Form() {
 
   return (
     <div className="form">
-      <form action="submit" onSubmit={handleSubmit} className="form-cont">
+      <form
+        action="submit"
+        onSubmit={handleSubmit}
+        className="form-cont"
+        autoComplete="off"
+      >
         <h3 className="title">Crear juego</h3>
         <div className="form-camp">
           <label htmlFor="name">Nombre</label>
@@ -93,8 +97,21 @@ function Form() {
             value={data.rating}
             onChange={handleChange}
             required
+            placeholder="0 - 100"
           />
           {errors.rating && <p className="error">{errors.rating}</p>}
+        </div>
+        <div className="form-camp">
+          <label htmlFor="released">Fecha de lanzamiento</label>
+          <input
+            type="date"
+            name="released"
+            value={data.released}
+            onChange={handleChange}
+            placeholder="dd/mm/aaaa"
+            required
+          />
+          {errors.released && <p className="error">{errors.released}</p>}
         </div>
         <div className="form-camp">
           <label htmlFor="platforms">Plataformas</label>
@@ -115,23 +132,11 @@ function Form() {
             setState={setGenreState}
             datalist={genres}
             name="genres"
-            required
             placeholder="¿A que generos pertenece?"
           />
           {errors.genres && <p className="error">{errors.genres}</p>}
         </div>
-        <div className="form-camp">
-          <label htmlFor="released">Fecha de lanzamiento</label>
-          <input
-            type="date"
-            name="released"
-            value={data.released}
-            onChange={handleChange}
-            placeholder="dd/mm/aaaa"
-            required
-          />
-          {errors.released && <p className="error">{errors.released}</p>}
-        </div>
+
         <div className="form-camp">
           <label htmlFor="description">Descripcion</label>
           <textarea
@@ -139,6 +144,7 @@ function Form() {
             value={data.description}
             onChange={handleChange}
             required
+            placeholder="Una breve descripcion de tu juego"
           ></textarea>
           {errors.description && <p className="error">{errors.description}</p>}
         </div>
