@@ -37,7 +37,7 @@ export const getGames = (name = null) => {
         payload: data,
       });
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
     }
   };
 };

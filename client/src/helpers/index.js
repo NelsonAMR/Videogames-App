@@ -1,4 +1,4 @@
 import createGame from "./createGame";
-import validation from "./validation";
+import { validation, stateValidation } from "./validation";
 
-export { createGame, validation };
+export { createGame, validation, stateValidation };

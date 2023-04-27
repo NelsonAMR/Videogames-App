@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Selector } from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { clearState, getGenres, getPlatforms } from "../redux/actions";
-import { createGame, validation } from "../helpers";
+import { createGame, stateValidation, validation } from "../helpers";
 
 import "../styles/views/Form.scss";
 
@@ -29,10 +29,21 @@ function Form() {
     );
   };
 
+  useEffect(() => {
+    dispatch(clearState());
+    dispatch(getGenres());
+    dispatch(getPlatforms());
+  }, [dispatch]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!Object.keys(errors).length) {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      ...stateValidation(genreState, platformState),
+    }));
+
+    if (!Object.keys(errors).length && genreState.length > 0) {
       createGame({ ...data, genres: genreState, platforms: platformState });
       setData({
         name: "",
@@ -41,18 +52,11 @@ function Form() {
         rating: 0,
         released: "",
       });
+      alert("Juego Creado");
       setGenreState([]);
       setPlatformState([]);
-    } else {
-      alert("Errores");
     }
   };
-
-  useEffect(() => {
-    dispatch(clearState());
-    dispatch(getGenres());
-    dispatch(getPlatforms());
-  }, [dispatch]);
 
   return (
     <div className="form">
@@ -84,6 +88,7 @@ function Form() {
             value={data.image}
             onChange={handleChange}
             placeholder="https://url-imagen.jpg"
+            required
           />
           {errors.image && <p className="error">{errors.image}</p>}
         </div>

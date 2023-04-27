@@ -7,7 +7,7 @@ const getGenres = async (req, res) => {
   try {
     let genres = await Genre.findAll();
 
-    if (!genres) {
+    if (!genres.length) {
       const response = await fetch(`${URL}/genres?key=${KEY}`);
       const { results } = await response.json();
 

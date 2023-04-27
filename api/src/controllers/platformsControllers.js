@@ -7,7 +7,7 @@ const getPlatforms = async (req, res) => {
   try {
     let platforms = await Platform.findAll();
 
-    if (!platforms) {
+    if (!platforms.length) {
       const response = await fetch(`${URL}/platforms?key=${KEY}`);
       const { results } = await response.json();
 
@@ -17,9 +17,6 @@ const getPlatforms = async (req, res) => {
     }
 
     res.status(200).json(platforms);
-
-    // await Promise.all(genres.map((genre) => Genre.create(genre)));
-    // await Genre.bulkCreate(genres);
   } catch (error) {
     res.status(500);
     res.send({ error: error.message });

@@ -1,8 +1,4 @@
-function validation(
-  { name, image, description, rating, released },
-  genreState,
-  platformState
-) {
+function validation({ name, image, description, rating, released }) {
   const errors = {};
   const regexImage = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|jpeg)/gi;
   const regexDate = /^(\d{4})(-|\/)(\d{2})(-|\/)(\d{2})$/;
@@ -44,15 +40,29 @@ function validation(
     }
   }
 
-  if (!genreState) {
-    errors.genres = "Debe tener almenos un genero";
+  return errors;
+}
+
+function stateValidation(genreState, platformState) {
+  const errors = {};
+
+  if (platformState.length < 1) {
+    errors.platforms = "Debes añadir almenos una plataforma";
+  } else if (platformState.length > 12) {
+    errors.platforms = "No se pueden agregar mas de 12 plataformas";
+  } else {
+    errors.platforms = null;
   }
 
-  if (!platformState) {
-    errors.platforms = "Debe ingresar al menos una plataforma";
+  if (genreState.length < 1) {
+    errors.genres = "Debes añadir almenos un genero";
+  } else if (genreState.length > 6) {
+    errors.genres = "No se pueden agregar mas de 6 generos";
+  } else {
+    errors.genres = null;
   }
 
   return errors;
 }
 
-export default validation;
+export { validation, stateValidation };

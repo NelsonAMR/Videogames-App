@@ -113,8 +113,18 @@ const postGame = async (req, res) => {
     const { name, description, platforms, image, rating, released, genres } =
       req.body;
 
-    if ((!name, !platforms, !rating, !released, !description)) {
-      throw Error("Faltan datos");
+    console.log(req.body);
+
+    if (
+      !name ||
+      !rating ||
+      !released ||
+      !description ||
+      !image ||
+      !genres ||
+      !platforms
+    ) {
+      throw new Error("Faltan datos");
     }
 
     const newGame = await Videogame.create({
@@ -135,7 +145,7 @@ const postGame = async (req, res) => {
     res.status(200).send({ msg: "created" });
   } catch (error) {
     res.status(500);
-    res.send({ error: error.message });
+    res.send({ msg: error.message });
   }
 };
 
