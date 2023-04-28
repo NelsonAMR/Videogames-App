@@ -1,0 +1,14 @@
+@use "../../base/variables" as v;
+
+.no-cards {
+  overflow-y: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 10rem;
+  max-width: 30rem;
+  border: 0.25rem solid v.$light;
+  margin: 5rem auto;
+  border-radius: 1rem;
+}

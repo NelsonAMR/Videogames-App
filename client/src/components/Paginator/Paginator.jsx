@@ -22,18 +22,6 @@ function Paginator() {
     if (page + 1 <= totalPages) dispatch(getPage(page + 1));
   };
 
-  // const handleChange = (event) => {
-  //   const { value } = event.target;
-
-  //   if (value < 1) {
-  //     dispatch(getPage(1));
-  //   }
-
-  //   if (value >= 0 && value <= totalPages) {
-  //     dispatch(getPage(value));
-  //   }
-  // };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const { value } = event.target.querySelector("input");

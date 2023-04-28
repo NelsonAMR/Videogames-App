@@ -67,17 +67,13 @@ img {
   display: block;
 }
 
-a {
-  font-size: 1.6rem;
-  text-decoration: none;
-}
-
 a,
 button {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 a {
+  font-size: 1.6rem;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
@@ -108,9 +104,9 @@ ul {
 }
 
 .btn {
+  border: none;
   font-size: 1.6rem;
   height: 100%;
-  border: none;
   background-color: darken(v.$dark, 5%);
   color: v.$light;
   padding-inline: 0.5rem;

@@ -11,9 +11,7 @@ export const ORDER_GAMES = "ORDER_GAMES";
 export const GET_PAGE = "GET_PAGE";
 export const FILTER_GAMES = "FILTER_GAMES";
 export const GET_GENRES = "GET_GENRES";
-export const DELETE_GENRE = "DELTE_GENRE";
 export const GET_PLATFORMS = "GET_PLATFORMS";
-export const DELETE_PLATFORM = "DELETE_PLATFORM";
 
 export const actFilters = () => {
   return {
@@ -96,15 +94,6 @@ export const getGenres = () => {
   };
 };
 
-export const deleteGenre = (genre) => {
-  return (dispatch) => {
-    dispatch({
-      type: DELETE_GENRE,
-      payload: genre,
-    });
-  };
-};
-
 export const getPlatforms = () => {
   return async (dispatch) => {
     const resp = await fetch(urlPlatforms);
@@ -113,15 +102,6 @@ export const getPlatforms = () => {
     dispatch({
       type: GET_PLATFORMS,
       payload: data,
-    });
-  };
-};
-
-export const deletePlatform = (platform) => {
-  return (dispatch) => {
-    dispatch({
-      type: DELETE_PLATFORM,
-      payload: platform,
     });
   };
 };

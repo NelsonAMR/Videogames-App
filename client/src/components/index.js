@@ -6,6 +6,8 @@ import Filters from "./Search/Filters.jsx";
 import Paginator from "./Paginator/Paginator.jsx";
 import PaginatorCont from "./Paginator/PaginatorCont.jsx";
 import Selector from "./Selector/Selector.jsx";
+import Loading from "./Loading/Loading.jsx";
+import NoCards from "./Cards/NoCards.jsx";
 
 export {
   Cards,
@@ -16,4 +18,6 @@ export {
   Paginator,
   Selector,
   PaginatorCont,
+  Loading,
+  NoCards,
 };

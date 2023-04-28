@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Selector from "../Selector/Selector";
+import { filterGames, getPage, orderGames } from "../../redux/actions";
 
 import "../../styles/components/Search/Filters.scss";
-import { filterGames, getPage, orderGames } from "../../redux/actions";
-import Selector from "../Selector/Selector";
 
 function Filters() {
   const { filterState } = useSelector((state) => state.app);
   const [filters, setFilters] = useState([]);
+  const [order, setOrder] = useState("original");
   const { genres } = useSelector((state) => state.games);
   const dispatch = useDispatch();
 
   const handleOrder = (event) => {
-    const order = event.target.id;
-    dispatch(orderGames(order));
+    const { value } = event.target;
+    setOrder(value);
+    dispatch(orderGames(value));
+  };
+
+  const handleClean = () => {
+    setFilters([]);
+    setOrder("original");
   };
 
   useEffect(() => {
@@ -22,19 +29,21 @@ function Filters() {
   }, [filters, dispatch]);
 
   return (
-    <div className={`filter${filterState ? " show" : ""}`}>
+    <div className={`filter ${filterState ? " show" : ""}`}>
       <div className="filter-order">
         <h4>Ordenar por</h4>
-        <div className="order-cont">
-          <div className="order">
-            <input type="radio" name="order" id="a-z" onClick={handleOrder} />
-            <label htmlFor="a-z">A - Z</label>
-          </div>
-          <div className="order">
-            <input type="radio" name="order" id="z-a" onClick={handleOrder} />
-            <label htmlFor="z-a">Z - A</label>
-          </div>
-        </div>
+        <select
+          name="orden"
+          placeholder="Ordenamiento"
+          onChange={handleOrder}
+          value={order}
+        >
+          <option value="original">Recomendados</option>
+          <option value="a-z">A - Z</option>
+          <option value="z-a">Z - A</option>
+          <option value="rating-asc">Rating Ascendente</option>
+          <option value="rating-des">Rating Descendente</option>
+        </select>
       </div>
       <div className="filter-filters">
         <h4>Filtros</h4>
@@ -46,6 +55,9 @@ function Filters() {
           placeholder="Incluir generos"
         />
       </div>
+      <button className="btn" onClick={handleClean}>
+        Limpiar
+      </button>
     </div>
   );
 }

@@ -113,8 +113,6 @@ const postGame = async (req, res) => {
     const { name, description, platforms, image, rating, released, genres } =
       req.body;
 
-    console.log(req.body);
-
     if (
       !name ||
       !rating ||

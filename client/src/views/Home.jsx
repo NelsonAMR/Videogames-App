@@ -1,29 +1,43 @@
-import React, { useEffect } from "react";
-import { Filters, Search, Cards, PaginatorCont } from "../components";
-import { useDispatch } from "react-redux";
+import React, { Fragment, useEffect, useState } from "react";
+import {
+  Filters,
+  Search,
+  Cards,
+  PaginatorCont,
+  Loading,
+  NoCards,
+} from "../components";
+import { useDispatch, useSelector } from "react-redux";
 import { clearState, getGames, getGenres } from "../redux/actions";
 
 import "../styles/views/Home.scss";
 
 function Home() {
-  // const { filterState } = useSelector((state) => state.app);
+  const [isLoading, setIsLoading] = useState(true);
+  const { games } = useSelector((state) => state.games);
+  // const { filter } = useSelector((state) => state.app);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(clearState());
-    dispatch(getGames());
     dispatch(getGenres());
+    dispatch(getGames()).then(() => setIsLoading(false));
   }, [dispatch]);
 
   return (
     <div className="home">
-      <Search />
-      <div className="home-cont">
-        <Cards />
-        {/* {filterState && <Filters />} */}
-        <Filters />
-      </div>
-      <PaginatorCont />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Fragment>
+          <Search setIsLoading={setIsLoading} />
+          <div className="home-cont">
+            {games.length ? <Cards /> : <NoCards />}
+            <Filters />
+          </div>
+          <PaginatorCont />
+        </Fragment>
+      )}
     </div>
   );
 }

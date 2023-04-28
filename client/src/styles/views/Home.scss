@@ -10,4 +10,6 @@
   display: flex;
   gap: 1rem 3rem;
   justify-content: space-between;
+  overflow: hidden;
+  min-height: fit-content;
 }

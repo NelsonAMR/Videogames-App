@@ -4,7 +4,7 @@ import { clearState, getGames, getPage } from "../../redux/actions";
 
 import "../../styles/components/Search/SearchBar.scss";
 
-function SearchBar() {
+function SearchBar({ setIsLoading }) {
   const [game, setGame] = useState("");
   const dispatch = useDispatch();
 
@@ -15,9 +15,10 @@ function SearchBar() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true);
     dispatch(clearState());
-    dispatch(getGames(game));
     dispatch(getPage(1));
+    dispatch(getGames(game)).then(() => setIsLoading(false));
     setGame("");
   };
 

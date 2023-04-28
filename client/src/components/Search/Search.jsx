@@ -6,15 +6,17 @@ import Paginator from "../Paginator/Paginator";
 
 import "../../styles/components/Search/Search.scss";
 
-function Search() {
+function Search({ setIsLoading }) {
   const dispatch = useDispatch();
 
-  const handleClick = () => dispatch(actFilters());
+  const handleClick = () => {
+    dispatch(actFilters());
+  };
 
   return (
     <div className="search">
       <Paginator />
-      <SearchBar />
+      <SearchBar setIsLoading={setIsLoading} />
       <button className="search-button btn" onClick={handleClick}>
         Filtros
       </button>
